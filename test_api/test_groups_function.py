@@ -17,8 +17,8 @@ class GroupsTestCase(unittest.TestCase):
             {"Name": "tiendang", "Number": "+84905708052"},
             {"Name": "hoangvo", "Number": "+84985022669"}]
         self.number = "+84905%s"%random.randint(100000, 999999)
-        self.groupId = 12
-        self.memberId = 31
+        self.groupId = 37
+        self.memberId = 101
 
     def test_create_new_group(self):
         print "====Begin Call Test Function Create New Group====\n"

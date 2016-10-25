@@ -1,18 +1,17 @@
-from config import BASE_URL, HEADERS
 from smscountrysdk.connection import BaseConnection
 import urllib
 
 
 class GroupCallsApi(BaseConnection):
 
-    def __init__(self, authKey, authToken):
-        super(GroupCallsApi, self).__init__(authKey, authToken)
+    def __init__(self, authKey, authToken, api_version="v0.1"):
+        super(GroupCallsApi, self).__init__(authKey, authToken, api_version)
 
     """
         Create a new group call by providing rth required information furnished below.
     """
 
-    def create_group_call(self, Name, Participants, WelcomeSound=None, WaitSound=None, StartGroupCallOnEnter=None, EndGroupCallOnExit=None, AnswerUrl=None):
+    def create_group_call(self, Name, Participants, WelcomeSound=None, WaitSound=None, StartGropCallOnEnter=None, EndGroupCallOnExit=None, AnswerUrl=None):
         """
             All parameters are in String type except parameter Participants is array object
             :type Participants: Array of objects, items object is Name and Number
@@ -37,9 +36,8 @@ class GroupCallsApi(BaseConnection):
                 "AnswerUrl": "%s",
                 "Participants":%s
             }
-            """ % (Name, WelcomeSound, WaitSound, StartGroupCallOnEnter, EndGroupCallOnExit, AnswerUrl, Participants)
-        print 'DATA JSON : ', values
-        url = "%s/v0.1/Accounts/%s/GroupCalls/" % (BASE_URL, self.authKey)
+            """ % (Name, WelcomeSound, WaitSound, StartGropCallOnEnter, EndGroupCallOnExit, AnswerUrl, Participants)
+        url = "%s/Accounts/%s/GroupCalls/" % (self.sub_url, self.authKey)
 
         return self.execute_request(url=url, data=values)
 
@@ -61,8 +59,8 @@ class GroupCallsApi(BaseConnection):
 
         data_encode = urllib.urlencode(values)
 
-        url = "%s/v0.1/Accounts/%s/GroupCalls/?%s" % (
-            BASE_URL, self.authKey, data_encode)
+        url = "%s/Accounts/%s/GroupCalls/?%s" % (
+            self.sub_url, self.authKey, data_encode)
 
         return self.execute_request(url=url)
 
@@ -71,8 +69,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def get_groupcall_detail(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url)
 
@@ -81,8 +79,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def get_participant_from_groupcall(self, GroupCallUUID, ParticipantId):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Participants/%s/" % (
-            BASE_URL, self.authKey, GroupCallUUID, ParticipantId)
+        url = "%s/Accounts/%s/GroupCalls/%s/Participants/%s" % (
+            self.sub_url, self.authKey, GroupCallUUID, ParticipantId)
 
         return self.execute_request(url=url)
 
@@ -91,8 +89,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def get_all_participant_from_groupcall(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Participants/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Participants/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url)
 
@@ -107,8 +105,8 @@ class GroupCallsApi(BaseConnection):
           }
         """ % FileUrl
 
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Play/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Play/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, data=values)
 
@@ -123,8 +121,8 @@ class GroupCallsApi(BaseConnection):
           }
         """ % FileUrl
 
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Participants/%s/Play/" % (
-            BASE_URL, self.authKey, GroupCallUUID, ParticipantId)
+        url = "%s/Accounts/%s/GroupCalls/%s/Participants/%s/Play/" % (
+            self.sub_url, self.authKey, GroupCallUUID, ParticipantId)
 
         return self.execute_request(url=url, data=values)
 
@@ -133,8 +131,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def mute_all_participant_in_groupcall(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Mute/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Mute/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, httpMethod="PATCH")
 
@@ -143,8 +141,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def mute_participant_in_groupcall(self, GroupCallUUID, ParticipantId):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Participants/%s/Mute/" % (
-            BASE_URL, self.authKey, GroupCallUUID, ParticipantId)
+        url = "%s/Accounts/%s/GroupCalls/%s/Participants/%s/Mute/" % (
+            self.sub_url, self.authKey, GroupCallUUID, ParticipantId)
 
         return self.execute_request(url=url, httpMethod="PATCH")
 
@@ -153,8 +151,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def unmute_all_participant_in_groupcall(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/UnMute/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/UnMute/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, httpMethod="PATCH")
 
@@ -163,8 +161,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def unmute_participant_in_groupcall(self, GroupCallUUID, ParticipantId):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Participants/%s/UnMute/" % (
-            BASE_URL, self.authKey, GroupCallUUID, ParticipantId)
+        url = "%s/Accounts/%s/GroupCalls/%s/Participants/%s/UnMute/" % (
+            self.sub_url, self.authKey, GroupCallUUID, ParticipantId)
 
         return self.execute_request(url=url, httpMethod="PATCH")
 
@@ -178,8 +176,8 @@ class GroupCallsApi(BaseConnection):
             "FileFormat": "%s"
           }
         """ % FileFormat
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Recordings/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, data=values)
 
@@ -188,8 +186,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def stop_recording_groupcall(self, GroupCallUUID, RecordingUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
-            BASE_URL, self.authKey, GroupCallUUID, RecordingUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
+            self.sub_url, self.authKey, GroupCallUUID, RecordingUUID)
 
         return self.execute_request(url=url, httpMethod="PATCH")
 
@@ -198,8 +196,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def stop_all_recording_groupcall(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Recordings/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, httpMethod="PATCH")
 
@@ -208,8 +206,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def get_recording_detail_of_groupcall(self, GroupCallUUID, RecordingUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
-            BASE_URL, self.authKey, GroupCallUUID, RecordingUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
+            self.sub_url, self.authKey, GroupCallUUID, RecordingUUID)
 
         return self.execute_request(url=url)
 
@@ -218,8 +216,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def get_all_recording_detail_of_groupcall(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Recordings/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url)
 
@@ -228,8 +226,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def delete_recording_of_groupcall(self, GroupCallUUID, RecordingUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
-            BASE_URL, self.authKey, GroupCallUUID, RecordingUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
+            self.sub_url, self.authKey, GroupCallUUID, RecordingUUID)
 
         return self.execute_request(url=url, httpMethod="DELETE")
 
@@ -238,8 +236,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def delete_all_recording_of_groupcall(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Recordings/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, httpMethod="DELETE")
 
@@ -248,8 +246,8 @@ class GroupCallsApi(BaseConnection):
     """
 
     def disconnect_all_participants_from_groupcall(self, GroupCallUUID):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Hangup/" % (
-            BASE_URL, self.authKey, GroupCallUUID)
+        url = "%s/Accounts/%s/GroupCalls/%s/Hangup/" % (
+            self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, httpMethod="PATCH")
 
@@ -258,7 +256,7 @@ class GroupCallsApi(BaseConnection):
     """
 
     def disconnect_participants_from_groupcall(self, GroupCallUUID, ParticipantId):
-        url = "%s/v0.1/Accounts/%s/GroupCalls/%s/Participants/%s/Hangup/" % (
-            BASE_URL, self.authKey, GroupCallUUID, ParticipantId)
+        url = "%s/Accounts/%s/GroupCalls/%s/Participants/%s/Hangup/" % (
+            self.sub_url, self.authKey, GroupCallUUID, ParticipantId)
 
         return self.execute_request(url=url, httpMethod="PATCH")

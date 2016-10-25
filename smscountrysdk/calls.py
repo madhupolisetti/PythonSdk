@@ -1,12 +1,11 @@
-from config import BASE_URL, HEADERS
 from smscountrysdk.connection import BaseConnection
 import urllib
 
 
 class CallsApi(BaseConnection):
 
-    def __init__(self, authKey, authToken):
-        super(CallsApi, self).__init__(authKey, authToken)
+    def __init__(self, authKey, authToken, api_version="v0.1"):
+        super(CallsApi, self).__init__(authKey, authToken, api_version)
 
     """
         Used to dial out a new call to a number.
@@ -24,8 +23,8 @@ class CallsApi(BaseConnection):
             "Xml": "%s"
           }
         """ % (Number, CallerId, RingUrl, AnswerUrl, HangupUrl, HttpMethod, Xml)
-
-        url = "%s/v0.1/Accounts/%s/Calls/" % (BASE_URL, self.authKey)
+        
+        url = "%s/Accounts/%s/Calls/" % (self.sub_url, self.authKey)
         return self.execute_request(url=url, data=values)
 
     """
@@ -45,7 +44,7 @@ class CallsApi(BaseConnection):
           }
         """ % (Numbers, CallerId, RingUrl, AnswerUrl, HangupUrl, HttpMethod, Xml)
 
-        url = "%s/v0.1/Accounts/%s/BulkCalls/" % (BASE_URL, self.authKey)
+        url = "%s/Accounts/%s/BulkCalls/" % (self.sub_url, self.authKey)
         return self.execute_request(url=url, data=values)
 
     """
@@ -54,8 +53,8 @@ class CallsApi(BaseConnection):
 
     def get_call_details(self, CallUUID):
         """ Build url call details infomation """
-        url = "%s/v0.1/Accounts/%s/Calls/%s" % (
-            BASE_URL, self.authKey, CallUUID)
+        url = "%s/Accounts/%s/Calls/%s" % (
+            self.sub_url, self.authKey, CallUUID)
         return self.execute_request(url=url)
 
     """
@@ -65,7 +64,7 @@ class CallsApi(BaseConnection):
     def get_calls_list(self, FromDate=None, ToDate=None, CallerId=None, Offset=None, Limit=10):
         """ Build url get calls list by period and callerId """
         values = {"limit": Limit}
-
+        
         if FromDate:
             values["FromDate"] = FromDate
 
@@ -78,11 +77,12 @@ class CallsApi(BaseConnection):
         if Offset:
             values["Offset"] = Offset
 
+
         data_encode = urllib.urlencode(values)
 
-        url = "%s/v0.1/Accounts/%s/Calls/?%s" % (
-            BASE_URL, self.authKey, data_encode)
-
+        url = "%s/Accounts/%s/Calls/?%s" % (
+            self.sub_url, self.authKey, data_encode)
+        
         return self.execute_request(url=url)
 
     """
@@ -91,7 +91,8 @@ class CallsApi(BaseConnection):
 
     def disconnect_call(self, CallUUID):
         """ Build url disconnect call by UUID"""
-        url = "%s/v0.1/Accounts/%s/Calls/%s/" % (
-            BASE_URL, self.authKey, CallUUID)
+        url = "%s/Accounts/%s/Calls/%s/" % (
+            self.sub_url, self.authKey, CallUUID)
 
         return self.execute_request(url=url, httpMethod="PATCH")
+

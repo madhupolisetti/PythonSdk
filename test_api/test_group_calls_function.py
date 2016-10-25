@@ -3,8 +3,7 @@ from smscountrysdk.group_calls import GroupCallsApi
 from urllib2 import URLError
 import json
 import datetime
-import random
-import string
+import random, string
 
 
 class GroupCallsTestCase(unittest.TestCase):
@@ -18,14 +17,14 @@ class GroupCallsTestCase(unittest.TestCase):
         self.lst_participants = [
             {"Name": "tiendang", "Number": "+84905708052"},
             {"Name": "hoangvo", "Number": "+84985022669"},
-            {"Name": "hoangvo12", "Number": "+84905643217"}]
+            {"Name": "hoangvo12", "Number": " 1234567890 "}]
 
         self.end = datetime.datetime.now()
         self.start = self.end + datetime.timedelta(days=-1)
 
         self.number = "+84905%s" % random.randint(100000, 999999)
         self.groupCallUUID = "68769E1C6D934B9B8F35711D77769E"
-        self.participantId = "84905708052"
+        self.participantId = ""
         self.fileFormat = "mp3"
         self.recordingUUID = ""
 
@@ -35,12 +34,13 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             resp = self.api.create_group_call(Name=self.name_group, Participants=self.lst_participants, WelcomeSound="http://yourdomain/welcomsoundurl", WaitSound="http://yourdomain/waitsound",
-                                              StartGroupCallOnEnter="+84905708052", EndGroupCallOnExit="+84985022669", AnswerUrl="http://yourdomain/answer")
+                                              StartGropCallOnEnter="+84905708052", EndGroupCallOnExit="+84985022669", AnswerUrl="http://yourdomain/answer")
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
@@ -55,13 +55,13 @@ class GroupCallsTestCase(unittest.TestCase):
 
         is_error = False
         try:
-            resp = self.api.get_groupcalls(
-                FromDate=None, ToDate=None, Offset=None, Limit=10)
+            resp = self.api.get_groupcalls(FromDate=None, ToDate=None, Offset=None, Limit=10)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
@@ -84,6 +84,7 @@ class GroupCallsTestCase(unittest.TestCase):
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
@@ -99,23 +100,23 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.get_all_participant_from_groupcall(
-                self.groupCallUUID)
+            
+            resp = self.api.get_all_participant_from_groupcall(self.groupCallUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Get All Participant From GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Get All Participant From GroupCalls Errors")
 
         print "====End Test Function Get All Participant From GroupCalls Success====\n"
+
 
     def test_get_participant_from_groupcall(self):
         print "====Begin Call Test Function Get All Participant From GroupCalls====\n"
@@ -124,21 +125,20 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.participantId, "")
-
-            resp = self.api.get_participant_from_groupcall(
-                self.groupCallUUID, self.participantId)
+            
+            resp = self.api.get_participant_from_groupcall(self.groupCallUUID, self.participantId)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Get All Participant From GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Get All Participant From GroupCalls Errors")
 
         print "====End Test Function Get All Participant From GroupCalls Success====\n"
 
@@ -149,22 +149,22 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
 
-            resp = self.api.play_sound_into_groupcall(
-                self.groupCallUUID, FileUrl=None)
+            resp = self.api.play_sound_into_groupcall(self.groupCallUUID, FileUrl=None)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Play Sound Into GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Play Sound Into GroupCalls Errors")
 
         print "====End Test Function Play Sound Into GroupCalls Success====\n"
+
 
     def test_play_sound_into_participant_groupcall(self):
         print "====Begin Call Test Function Play Sound Into Participant GroupCalls====\n"
@@ -173,21 +173,20 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.participantId, "")
-
-            resp = self.api.play_sound_into_participant_groupcall(
-                self.groupCallUUID, self.participantId, FileUrl=None)
+                        
+            resp = self.api.play_sound_into_participant_groupcall(self.groupCallUUID, self.participantId, FileUrl=None)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Play Sound Into Participant GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Play Sound Into Participant GroupCalls Errors")
 
         print "====End Test Function Play Sound Into Participant GroupCalls Success====\n"
 
@@ -197,21 +196,20 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.mute_all_participant_in_groupcall(
-                self.groupCallUUID)
+                        
+            resp = self.api.mute_all_participant_in_groupcall(self.groupCallUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Mute All Participant Call In GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Mute All Participant Call In GroupCalls Errors")
 
         print "====End Test Function Mute All Participant Call In GroupCalls Success====\n"
 
@@ -222,21 +220,20 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.participantId, "")
-
-            resp = self.api.mute_participant_in_groupcall(
-                GroupCallUUID=self.groupCallUUID, ParticipantId=self.participantId)
+                        
+            resp = self.api.mute_participant_in_groupcall(GroupCallUUID=self.groupCallUUID, ParticipantId=self.participantId)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Mute Participant Call In GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Mute Participant Call In GroupCalls Errors")
 
         print "====End Test Function Mute Participant Call In GroupCalls Success====\n"
 
@@ -246,21 +243,20 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.unmute_all_participant_in_groupcall(
-                GroupCallUUID=self.groupCallUUID)
+                        
+            resp = self.api.unmute_all_participant_in_groupcall(GroupCallUUID=self.groupCallUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API UnMute All Participant Call In GroupCalls Errors")
+        self.assertFalse(is_error, "Call API UnMute All Participant Call In GroupCalls Errors")
 
         print "====End Test Function UnMute All Participant Call In GroupCalls Success====\n"
 
@@ -271,21 +267,20 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.participantId, "")
-
-            resp = self.api.unmute_participant_in_groupcall(
-                GroupCallUUID=self.groupCallUUID, ParticipantId=self.participantId)
+                        
+            resp = self.api.unmute_participant_in_groupcall(GroupCallUUID=self.groupCallUUID, ParticipantId=self.participantId)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API UnMute Participant Call In GroupCalls Errors")
+        self.assertFalse(is_error, "Call API UnMute Participant Call In GroupCalls Errors")
 
         print "====End Test Function UnMute Participant Call In GroupCalls Success====\n"
 
@@ -295,21 +290,20 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.start_recording_groupcall(
-                GroupCallUUID=self.groupCallUUID, FileFormat=self.fileFormat)
+                        
+            resp = self.api.start_recording_groupcall(GroupCallUUID=self.groupCallUUID, FileFormat=self.fileFormat)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Start Recording GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Start Recording GroupCalls Errors")
 
         print "====End Test Function Start Recording GroupCalls Success====\n"
 
@@ -319,21 +313,20 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.stop_all_recording_groupcall(
-                GroupCallUUID=self.groupCallUUID)
+                        
+            resp = self.api.stop_all_recording_groupcall(GroupCallUUID=self.groupCallUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Stop All Recording GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Stop All Recording GroupCalls Errors")
 
         print "====End Test Function Stop All Recording GroupCalls Success====\n"
 
@@ -343,23 +336,23 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.get_all_recording_detail_of_groupcall(
-                GroupCallUUID=self.groupCallUUID)
+                        
+            resp = self.api.get_all_recording_detail_of_groupcall(GroupCallUUID=self.groupCallUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Get All Recording Details GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Get All Recording Details GroupCalls Errors")
 
         print "====End Test Function Get All Recording Details GroupCalls Success====\n"
+
 
     def test_get_recording_detail_of_groupcall(self):
         print "====Begin Call Test Function Get Recording Details GroupCalls====\n"
@@ -368,23 +361,23 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.recordingUUID, "")
-
-            resp = self.api.get_recording_detail_of_groupcall(
-                GroupCallUUID=self.groupCallUUID, RecordingUUID=slef.recordingUUID)
+                        
+            resp = self.api.get_recording_detail_of_groupcall(GroupCallUUID=self.groupCallUUID, RecordingUUID=slef.recordingUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Get Recording Details GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Get Recording Details GroupCalls Errors")
 
         print "====End Test Function Get Recording Details GroupCalls Success====\n"
+
 
     def test_stop_recording_groupcall(self):
         print "====Begin Call Test Function Stop Recording Details GroupCalls====\n"
@@ -393,21 +386,20 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.recordingUUID, "")
-
-            resp = self.api.stop_recording_groupcall(
-                GroupCallUUID=self.groupCallUUID, RecordingUUID=slef.recordingUUID)
+                        
+            resp = self.api.stop_recording_groupcall(GroupCallUUID=self.groupCallUUID, RecordingUUID=slef.recordingUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Stop Recording Details GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Stop Recording Details GroupCalls Errors")
 
         print "====End Test Function Stop Recording Details GroupCalls Success====\n"
 
@@ -418,21 +410,20 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.recordingUUID, "")
-
-            resp = self.api.delete_recording_of_groupcall(
-                GroupCallUUID=self.groupCallUUID, RecordingUUID=slef.recordingUUID)
+                        
+            resp = self.api.delete_recording_of_groupcall(GroupCallUUID=self.groupCallUUID, RecordingUUID=slef.recordingUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Delete Recording Of GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Delete Recording Of GroupCalls Errors")
 
         print "====End Test Function Delete Recording Of GroupCalls Success====\n"
 
@@ -442,21 +433,20 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.delete_all_recording_of_groupcall(
-                GroupCallUUID=self.groupCallUUID)
+                                    
+            resp = self.api.delete_all_recording_of_groupcall(GroupCallUUID=self.groupCallUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Delete All Recording Of GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Delete All Recording Of GroupCalls Errors")
 
         print "====End Test Function Delete All Recording Of GroupCalls Success====\n"
 
@@ -467,21 +457,20 @@ class GroupCallsTestCase(unittest.TestCase):
         try:
             self.assertNotEqual(self.groupCallUUID, "")
             self.assertNotEqual(self.participantId, "")
-
-            resp = self.api.disconnect_participants_from_groupcall(
-                GroupCallUUID=self.groupCallUUID, ParticipantId=self.participantId)
+                                    
+            resp = self.api.disconnect_participants_from_groupcall(GroupCallUUID=self.groupCallUUID, ParticipantId=self.participantId)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Disconnect Participant By Id From GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Disconnect Participant By Id From GroupCalls Errors")
 
         print "====End Test Function Disconnect Participant By Id From GroupCalls Success====\n"
 
@@ -491,20 +480,19 @@ class GroupCallsTestCase(unittest.TestCase):
         is_error = False
         try:
             self.assertNotEqual(self.groupCallUUID, "")
-
-            resp = self.api.disconnect_all_participants_from_groupcall(
-                GroupCallUUID=self.groupCallUUID)
+                                    
+            resp = self.api.disconnect_all_participants_from_groupcall(GroupCallUUID=self.groupCallUUID)
 
             data_json = json.loads(resp)
             print 'response : ', data_json
 
             self.assertEqual(data_json["Success"], 'True')
+            # self.assertEqual(data_json["Message"], "Group Created")
 
         except Exception, e:
             print e
             is_error = True
 
-        self.assertFalse(
-            is_error, "Call API Disconnect All Participants From GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Disconnect All Participants From GroupCalls Errors")
 
         print "====End Test Function Disconnect All Participants From GroupCalls Success====\n"

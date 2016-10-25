@@ -1,4 +1,4 @@
-from config import HEADERS
+from config import BASE_URL, HEADERS
 from urllib2 import urlopen, URLError, Request
 import base64
 import httplib
@@ -7,12 +7,13 @@ import httplib
 class BaseConnection(object):
     """Set Authenticate Key For Request"""
 
-    def __init__(self, authKey, authToken):
+    def __init__(self, authKey, authToken, api_version):
         if not authKey or not authKey:
             raise Exception("Authentication key and token Not Empty")
 
         self.authKey = authKey
         self.authToken = authToken
+        self.sub_url = BASE_URL + '/' + api_version
 
         """ Encode Base64 Authorization and add for headers """
         HEADERS["Authorization"] = "Basic %s" % base64.b64encode(

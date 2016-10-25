@@ -1,12 +1,11 @@
-from config import BASE_URL, HEADERS
 from smscountrysdk.connection import BaseConnection
 import urllib
 
 
 class GroupsApi(BaseConnection):
 
-    def __init__(self, authKey, authToken):
-        super(GroupsApi, self).__init__(authKey, authToken)
+    def __init__(self, authKey, authToken, api_version="v0.1"):
+        super(GroupsApi, self).__init__(authKey, authToken, api_version)
 
     """
         Used to created your own Group.
@@ -38,7 +37,7 @@ class GroupsApi(BaseConnection):
           }
         """ % (Name, TinyName, StartGroupCallOnEnter, EndGroupCallOnExit, Members)
 
-        url = "%s/v0.1/Accounts/%s/Groups/" % (BASE_URL, self.authKey)
+        url = "%s/Accounts/%s/Groups/" % (self.sub_url, self.authKey)
         return self.execute_request(url=url, data=values)
 
     """
@@ -46,8 +45,8 @@ class GroupsApi(BaseConnection):
     """
 
     def get_group_by_id(self, GroupId):
-        url = "%s/v0.1/Accounts/%s/Groups/%s" % (
-            BASE_URL, self.authKey, GroupId)
+        url = "%s/Accounts/%s/Groups/%s" % (
+            self.sub_url, self.authKey, GroupId)
         return self.execute_request(url=url)
 
     """
@@ -56,7 +55,7 @@ class GroupsApi(BaseConnection):
 
     def get_group_collection(self, NameLike=None, StartGroupCallOnEnter=None, EndGroupCallOnExit=None, TinyName=None):
         values = {}
-
+        
         if NameLike:
             values["nameLike"] = NameLike
 
@@ -69,10 +68,11 @@ class GroupsApi(BaseConnection):
         if TinyName:
             values["tinyName"] = TinyName
 
+
         data_encode = urllib.urlencode(values)
 
-        url = "%s/v0.1/Accounts/%s/Groups/?%s" % (
-            BASE_URL, self.authKey, data_encode)
+        url = "%s/Accounts/%s/Groups/?%s" % (
+            self.sub_url, self.authKey, data_encode)
         return self.execute_request(url=url)
 
     """
@@ -91,8 +91,8 @@ class GroupsApi(BaseConnection):
         if EndGroupCallOnExit:
             values["EndGroupCallOnExit"] = EndGroupCallOnExit
 
-        url = "%s/v0.1/Accounts/%s/Groups/%s/" % (
-            BASE_URL, self.authKey, GroupId)
+        url = "%s/Accounts/%s/Groups/%s/" % (
+            self.sub_url, self.authKey, GroupId)
 
         return self.execute_request(url=url, data=values, httpMethod="PATCH")
 
@@ -101,8 +101,8 @@ class GroupsApi(BaseConnection):
     """
 
     def delete_group(self, GroupId):
-        url = "%s/v0.1/Accounts/%s/Groups/%s/" % (
-            BASE_URL, self.authKey, GroupId)
+        url = "%s/Accounts/%s/Groups/%s/" % (
+            self.sub_url, self.authKey, GroupId)
 
         return self.execute_request(url=url, httpMethod="DELETE")
 
@@ -111,8 +111,8 @@ class GroupsApi(BaseConnection):
     """
 
     def get_member_detail(self, GroupId, MemberId):
-        url = "%s/v0.1/Accounts/%s/Groups/%s/Members/%s" % (
-            BASE_URL, self.authKey, GroupId, MemberId)
+        url = "%s/Accounts/%s/Groups/%s/Members/%s" % (
+            self.sub_url, self.authKey, GroupId, MemberId)
         return self.execute_request(url=url)
 
     """
@@ -120,8 +120,8 @@ class GroupsApi(BaseConnection):
     """
 
     def get_members_by_group(self, GroupId):
-        url = "%s/v0.1/Accounts/%s/Groups/%s/Members/" % (
-            BASE_URL, self.authKey, GroupId)
+        url = "%s/Accounts/%s/Groups/%s/Members/" % (
+            self.sub_url, self.authKey, GroupId)
         return self.execute_request(url=url)
 
     """
@@ -135,8 +135,8 @@ class GroupsApi(BaseConnection):
             "Number": "%s"
           }
         """ % (Name, Number)
-        url = "%s/v0.1/Accounts/%s/Groups/%s/Members/%s/" % (
-            BASE_URL, self.authKey, GroupId, MemberId)
+        url = "%s/Accounts/%s/Groups/%s/Members/%s/" % (
+            self.sub_url, self.authKey, GroupId, MemberId)
 
         return self.execute_request(url=url, data=values, httpMethod="PATCH")
 
@@ -145,8 +145,8 @@ class GroupsApi(BaseConnection):
     """
 
     def delete_member_from_group(self, GroupId, MemberId):
-        url = "%s/v0.1/Accounts/%s/Groups/%s/Members/%s/" % (
-            BASE_URL, self.authKey, GroupId, MemberId)
+        url = "%s/Accounts/%s/Groups/%s/Members/%s/" % (
+            self.sub_url, self.authKey, GroupId, MemberId)
 
         return self.execute_request(url=url, httpMethod="DELETE")
 
@@ -161,7 +161,7 @@ class GroupsApi(BaseConnection):
             "Number": "%s"
           }
         """ % (Name, Number)
-        url = "%s/v0.1/Accounts/%s/Groups/%s/Members/" % (
-            BASE_URL, self.authKey, GroupId)
+        url = "%s/Accounts/%s/Groups/%s/Members/" % (
+            self.sub_url, self.authKey, GroupId)
 
         return self.execute_request(url=url, data=values)
