@@ -79,7 +79,7 @@ class GroupCallsApi(BaseConnection):
     """
 
     def get_participant_from_groupcall(self, GroupCallUUID, ParticipantId):
-        url = "%s/Accounts/%s/GroupCalls/%s/Participants/%s" % (
+        url = "%s/Accounts/%s/GroupCalls/%s/Participants/%s/" % (
             self.sub_url, self.authKey, GroupCallUUID, ParticipantId)
 
         return self.execute_request(url=url)
@@ -236,7 +236,7 @@ class GroupCallsApi(BaseConnection):
     """
 
     def delete_all_recording_of_groupcall(self, GroupCallUUID):
-        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/%s/" % (
+        url = "%s/Accounts/%s/GroupCalls/%s/Recordings/" % (
             self.sub_url, self.authKey, GroupCallUUID)
 
         return self.execute_request(url=url, httpMethod="DELETE")
