@@ -21,8 +21,8 @@ Install
 
 ::
 
-    $ git clone git://github.com/smscountry-python
-    $ cd smscountry-python
+    $ git clone https://github.com/madhupolisetti/PythonSdk.git
+    $ cd PythonSdk
     $ python setup.py install
 
 
