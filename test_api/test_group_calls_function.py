@@ -119,7 +119,7 @@ class GroupCallsTestCase(unittest.TestCase):
 
 
     def test_get_participant_from_groupcall(self):
-        print "====Begin Call Test Function Get All Participant From GroupCalls====\n"
+        print "====Begin Call Test Function Get Participant Detail From GroupCalls====\n"
 
         is_error = False
         try:
@@ -138,9 +138,9 @@ class GroupCallsTestCase(unittest.TestCase):
             print e
             is_error = True
 
-        self.assertFalse(is_error, "Call API Get All Participant From GroupCalls Errors")
+        self.assertFalse(is_error, "Call API Get Participant Detail From GroupCalls Errors")
 
-        print "====End Test Function Get All Participant From GroupCalls Success====\n"
+        print "====End Test Function Get Participant Detail From GroupCalls Success====\n"
 
     def test_play_sound_into_groupcall(self):
         print "====Begin Call Test Function Play Sound Into GroupCalls====\n"
