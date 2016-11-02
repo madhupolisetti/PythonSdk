@@ -34,33 +34,36 @@ Getting Started
 
 * SMS API Class - secure, authenticated access to SMS API.
     
-    1. send_sms(Text, Number, SenderId, DRNotifyUrl, DRNotifyHttpMethod="POST")
+    1. send_sms(Text, Number, SenderId, DRNotifyUrl, DRNotifyHttpMethod="POST", Tool="API")
 
         - Text : (string) Text that has to be delivered to the destination.
         - Number: (string) Destination mobile number to which the SMS has to be delivered.
         - SenderId: (string) SenderId to use when delivering the SMS.
         - DRNotifyUrl: (string) Used to get delivery status on your callback url. Example: https://www.domainname.com/notifyurl
         - DRNotifyHttpMethod: (string) Applicable only if DRNotifyUrl is set. Default value is POST.
+        - Tool: (string) Applicable only if Tool is set. Default value is API.
 
     2. get_sms_details(messageUUID)
 
         - messageUUID: (string) MessageUUID received from Send SMS API. Example: 4236749c-0d5c-4b1e-9598-3260e688d616.\
 
-    3. get_sms_collection(SenderId, FromDate=None, ToDate=None, Offset=None, Limit=10)
+    3. get_sms_collection(SenderId, FromDate=None, ToDate=None, Offset=None, Limit=10, Tool="All")
 
         - FromDate: (string) If specified SMSes from this time period will be listed. Default value is currenct day 00:0. Example: 2015-02-19 15:04.
         - ToDate: (string) If specified SMSes till this time will be listed. Default value is currenct day 23:59:59. Example: 2015-03-19 15:20.
         - SenderId: (string) If specified SMSes that has this senderid will be listed. Default value is none, means will remove senderid filter. Example: SMSCountry.
         - Offset: says to skip that many rows before beginning to return rows. 
         - Limit: then OFFSET rows are skipped before starting to count the LIMIT rows that are returned.
+        - Tool: (string) If specified SMSes which are delivered by this tool. Default value is All, means will remove Tool filter. Example: API.
 
-    4. send_bulk_sms(Text, Numbers, SenderId=None, DRNotifyUrl=None, DRNotifyHttpMethod="POST")
+    4. send_bulk_sms(Text, Numbers, SenderId=None, DRNotifyUrl=None, DRNotifyHttpMethod="POST", Tool="API")
 
         - Text: (string) Message text that has to be sent to specified numbers.
         - Numbers: (array) Numbers array that the message has to send. Example: ["1", "2"]
         - SenderId: (string) SenderId to use.
         - DRNotifyUrl: (string) Used to get delivery status on your callback url. Example: https://www.yourdomain.com/yourcallback
         - DRNotifyHttpMethod: (string) Applicable only if DRNotifyUrl is set. Default value is POST.
+        - Tool: (string) Applicable only if Tool is set. Default value is API
 
 * Calls API Class - secure, authenticated access to Calls API.
     

@@ -11,9 +11,9 @@ class SmsApi(BaseConnection):
         Used to send an SMS to a single mobile number
     """
 
-    def send_sms(self, Text, Number, SenderId, DRNotifyUrl, DRNotifyHttpMethod="POST"):
-        values = """{"Text": "%s", "Number": "%s", "SenderId": "%s", "DRNotifyUrl": "%s", "DRNotifyHttpMethod": "%s"}
-            """ % (Text, Number, SenderId, DRNotifyUrl, DRNotifyHttpMethod)
+    def send_sms(self, Text, Number, SenderId, DRNotifyUrl, DRNotifyHttpMethod="POST", Tool="API"):
+        values = """{"Text": "%s", "Number": "%s", "SenderId": "%s", "DRNotifyUrl": "%s", "DRNotifyHttpMethod": "%s", "Tool": "%s"}
+            """ % (Text, Number, SenderId, DRNotifyUrl, DRNotifyHttpMethod, Tool)
         url = "%s/Accounts/%s/SMSes/" % (self.sub_url, self.authKey)
 
         return self.execute_request(url=url, data=values)
@@ -32,7 +32,7 @@ class SmsApi(BaseConnection):
         Used to get a list of SMS objects based on certain filters
     """
 
-    def get_sms_collection(self, SenderId, FromDate=None, ToDate=None, Offset=None, Limit=10):
+    def get_sms_collection(self, SenderId, FromDate=None, ToDate=None, Offset=None, Limit=10, Tool="All"):
         values = {"SenderId": SenderId}
         
         if FromDate:
@@ -47,6 +47,9 @@ class SmsApi(BaseConnection):
         if Limit:
             values["limit"] = Limit
 
+        if Tool:
+            values["Tool"] = Tool
+
         data_encode = urllib.urlencode(values)
 
         url = "%s/Accounts/%s/SMSes/?%s"%(self.sub_url, self.authKey, data_encode)
@@ -57,16 +60,17 @@ class SmsApi(BaseConnection):
         Used to send SMS to more than one number in a single API call.
     """
 
-    def send_bulk_sms(self, Text, Numbers, SenderId=None, DRNotifyUrl=None, DRNotifyHttpMethod="POST"):
+    def send_bulk_sms(self, Text, Numbers, SenderId=None, DRNotifyUrl=None, DRNotifyHttpMethod="POST", Tool="API"):
         values = """
           {
             "Text": "%s",
             "Numbers": %s,
             "SenderId": "%s",
             "DRNotifyUrl": "%s",
-            "DRNotifyHttpMethod": "%s"
+            "DRNotifyHttpMethod": "%s",
+            "Tool": "%s"
           }
-        """ % (Text, Numbers, SenderId, DRNotifyUrl, DRNotifyHttpMethod)
+        """ % (Text, Numbers, SenderId, DRNotifyUrl, DRNotifyHttpMethod, Tool)
 
         url = "%s/Accounts/%s/BulkSMSes/" %(self.sub_url, self.authKey)
 

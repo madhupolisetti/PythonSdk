@@ -11,7 +11,7 @@ class SMSTestCase(unittest.TestCase):
         self.authKey = "q0VA5j2G8v1RpchQqVfs"
         self.authToken = "MHpmHoHxDGPbBij3SZSC7OGYHHHrRX507G6vqgrX"
         self.api = SmsApi(self.authKey, self.authToken)
-        self.messageUUID = "6a531463-1f1e-470f-bef4-1c75c0cdb296"
+        self.messageUUID = "c7a9948b-fcd1-4975-b4dd-d0e97c0f14c6"
         self.text = "TienDang Call api send sms"
         self.number = "+55905112233"
         self.senderId = "PYTHON"
